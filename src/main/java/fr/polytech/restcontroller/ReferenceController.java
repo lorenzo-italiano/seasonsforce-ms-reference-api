@@ -54,6 +54,21 @@ public class ReferenceController {
     }
 
     /**
+     * Get reference by user id.
+     *
+     * @param id User id (sender id).
+     * @return List of references with the specified user id.
+     */
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Reference>> getReferenceByUserId(@PathVariable("id") UUID id) {
+        try {
+            return ResponseEntity.ok(referenceService.getReferenceByUserId(id));
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
      * Create a reference.
      *
      * @param reference Reference to create.

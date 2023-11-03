@@ -7,6 +7,7 @@ public class ReferenceDTO {
     private String message;
     private UUID companyId;
     private UUID senderId;
+    private String senderJobTitle;
 
     public UUID getId() {
         return id;
@@ -38,5 +39,13 @@ public class ReferenceDTO {
 
     public void setSenderId(UUID senderId) {
         this.senderId = senderId;
+    }
+
+    public String getSenderJobTitle() {
+        return senderJobTitle;
+    }
+
+    public void setSenderJobTitle(String senderJobTitle) {
+        this.senderJobTitle = senderJobTitle;
     }
 }

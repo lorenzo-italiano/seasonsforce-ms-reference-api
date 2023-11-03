@@ -71,6 +71,7 @@ public class ReferenceService {
         referenceReturn.setMessage(reference.getMessage());
         referenceReturn.setCompanyId(reference.getCompanyId());
         referenceReturn.setSenderId(reference.getSenderId());
+        referenceReturn.setSenderJobTitle(reference.getSenderJobTitle());
 
         // Save the reference in the database and return it
         return referenceRepository.save(referenceReturn);
@@ -105,6 +106,7 @@ public class ReferenceService {
         storedReference.setMessage(reference.getMessage());
         storedReference.setCompanyId(reference.getCompanyId());
         storedReference.setSenderId(reference.getSenderId());
+        storedReference.setSenderJobTitle(reference.getSenderJobTitle());
 
         // Save the reference in the database and return it
         return referenceRepository.save(storedReference);
@@ -151,5 +153,16 @@ public class ReferenceService {
         DecodedJWT jwt = JWT.decode(actualToken);
         String userId = jwt.getClaim("sub").asString();
         return userId.equals(id);
+    }
+
+    /**
+     * Get all references sent by a user.
+     *
+     * @param id User id (sender id).
+     * @return List of references sent by the user.
+     */
+    public List<Reference> getReferenceByUserId(UUID id) {
+        logger.info("Getting reference with sender id " + id);
+        return referenceRepository.findBySenderId(id);
     }
 }

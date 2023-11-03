@@ -17,6 +17,7 @@ public class Reference {
     private UUID companyId;
 
     private UUID senderId;
+    private String senderJobTitle;
 
     public UUID getId() {
         return id;
@@ -50,6 +51,14 @@ public class Reference {
         this.senderId = senderId;
     }
 
+    public String getSenderJobTitle() {
+        return senderJobTitle;
+    }
+
+    public void setSenderJobTitle(String senderJobTitle) {
+        this.senderJobTitle = senderJobTitle;
+    }
+
     @Override
     public String toString() {
         return "Reference{" +
@@ -57,6 +66,7 @@ public class Reference {
                 ", message='" + message + '\'' +
                 ", companyId=" + companyId +
                 ", senderId=" + senderId +
+                ", senderJobTitle='" + senderJobTitle + '\'' +
                 '}';
     }
 }
