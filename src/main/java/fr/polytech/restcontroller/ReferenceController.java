@@ -78,9 +78,9 @@ public class ReferenceController {
      * @return Updated reference.
      */
     @PutMapping("/")
-    public ResponseEntity<Reference> updateReference(@RequestBody ReferenceDTO reference) {
+    public ResponseEntity<Reference> updateReference(@RequestBody ReferenceDTO reference, @RequestHeader("Authorization") String token) {
         try {
-            Reference updatedReference = referenceService.updateReference(reference);
+            Reference updatedReference = referenceService.updateReference(reference, token);
             logger.info("Completed update of a reference");
             logger.debug("Updated reference: " + updatedReference.toString());
             return ResponseEntity.ok(updatedReference);
@@ -98,9 +98,10 @@ public class ReferenceController {
      * @return True if the reference was deleted, false otherwise.
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteReference(@PathVariable("id") UUID id) {
+    public ResponseEntity<Boolean> deleteReference(@PathVariable("id") UUID id, @RequestHeader("Authorization") String token) {
         try {
-            referenceService.deleteReference(id);
+
+            referenceService.deleteReference(id, token);
             logger.info("Completed deletion of a reference");
             logger.debug("Deleted reference with id " + id);
             return ResponseEntity.ok(true);
