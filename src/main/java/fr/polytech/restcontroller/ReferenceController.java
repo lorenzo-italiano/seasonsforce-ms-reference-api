@@ -3,10 +3,13 @@ package fr.polytech.restcontroller;
 import fr.polytech.model.Reference;
 import fr.polytech.model.ReferenceDTO;
 import fr.polytech.service.ReferenceService;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.NotFoundException;
+import jakarta.ws.rs.Produces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +37,7 @@ public class ReferenceController {
      */
     @GetMapping("/")
     @PreAuthorize("hasRole('client_admin')")
+    @Produces(MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Reference>> getAllReferences() {
         return ResponseEntity.ok(referenceService.getAllReferences());
     }
@@ -45,6 +49,7 @@ public class ReferenceController {
      * @return Reference with the specified id.
      */
     @GetMapping("/{id}")
+    @Produces(MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Reference> getReferenceById(@PathVariable("id") UUID id) {
         try {
             return ResponseEntity.ok(referenceService.getReferenceById(id));
@@ -60,6 +65,7 @@ public class ReferenceController {
      * @return List of references with the specified user id.
      */
     @GetMapping("/user/{id}")
+    @Produces(MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Reference>> getReferenceByUserId(@PathVariable("id") UUID id) {
         try {
             return ResponseEntity.ok(referenceService.getReferenceByUserId(id));
@@ -75,6 +81,8 @@ public class ReferenceController {
      * @return Created reference.
      */
     @PostMapping("/")
+    @Consumes(MediaType.APPLICATION_JSON_VALUE)
+    @Produces(MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Reference> createReference(@RequestBody ReferenceDTO reference) {
         try {
             Reference createdReference = referenceService.createReference(reference);
@@ -93,6 +101,8 @@ public class ReferenceController {
      * @return Updated reference.
      */
     @PutMapping("/")
+    @Consumes(MediaType.APPLICATION_JSON_VALUE)
+    @Produces(MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Reference> updateReference(@RequestBody ReferenceDTO reference, @RequestHeader("Authorization") String token) {
         try {
             Reference updatedReference = referenceService.updateReference(reference, token);
@@ -113,6 +123,7 @@ public class ReferenceController {
      * @return True if the reference was deleted, false otherwise.
      */
     @DeleteMapping("/{id}")
+    @Produces(MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<Boolean> deleteReference(@PathVariable("id") UUID id, @RequestHeader("Authorization") String token) {
         try {
 

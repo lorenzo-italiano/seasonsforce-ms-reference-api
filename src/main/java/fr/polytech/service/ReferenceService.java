@@ -67,6 +67,8 @@ public class ReferenceService {
     public Reference createReference(ReferenceDTO reference) {
         logger.info("Starting the creation of a reference");
 
+        checkAttributes(reference);
+
         Reference referenceReturn = new Reference();
         referenceReturn.setMessage(reference.getMessage());
         referenceReturn.setCompanyId(reference.getCompanyId());
@@ -87,6 +89,9 @@ public class ReferenceService {
      */
     public Reference updateReference(ReferenceDTO reference, String token) throws HttpClientErrorException {
         logger.info("Starting the update of a reference");
+
+        checkAttributes(reference);
+
         Reference storedReference = referenceRepository.findById(reference.getId()).orElse(null);
 
         if (storedReference == null) {
@@ -164,5 +169,16 @@ public class ReferenceService {
     public List<Reference> getReferenceByUserId(UUID id) {
         logger.info("Getting reference with sender id " + id);
         return referenceRepository.findBySenderId(id);
+    }
+
+    /**
+     * Check if the reference has all the required attributes.
+     * @param reference Reference to check.
+     * @throws HttpClientErrorException If the reference does not have all the required attributes.
+     */
+    private void checkAttributes(ReferenceDTO reference) throws HttpClientErrorException {
+        if (reference.getMessage() == null || reference.getCompanyId() == null || reference.getSenderId() == null || reference.getSenderJobTitle() == null) {
+            throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing attributes");
+        }
     }
 }
