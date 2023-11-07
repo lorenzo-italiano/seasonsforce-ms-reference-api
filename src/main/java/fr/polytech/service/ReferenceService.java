@@ -70,10 +70,10 @@ public class ReferenceService {
         checkAttributes(reference);
 
         Reference referenceReturn = new Reference();
-        referenceReturn.setMessage(reference.getMessage());
+        referenceReturn.setContact(reference.getContact());
         referenceReturn.setCompanyId(reference.getCompanyId());
-        referenceReturn.setSenderId(reference.getSenderId());
-        referenceReturn.setSenderJobTitle(reference.getSenderJobTitle());
+        referenceReturn.setContactId(reference.getContactId());
+        referenceReturn.setContactJobTitle(reference.getContactJobTitle());
 
         // Save the reference in the database and return it
         return referenceRepository.save(referenceReturn);
@@ -100,7 +100,7 @@ public class ReferenceService {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Reference not found");
         }
 
-        boolean isSameUser = checkUser(reference.getSenderId().toString(), token);
+        boolean isSameUser = checkUser(reference.getContactId().toString(), token);
 
         if (!isSameUser) {
             logger.error("Error while deleting a reference: user not authorized");
@@ -108,10 +108,10 @@ public class ReferenceService {
             throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "User not authorized");
         }
 
-        storedReference.setMessage(reference.getMessage());
+        storedReference.setContact(reference.getContact());
         storedReference.setCompanyId(reference.getCompanyId());
-        storedReference.setSenderId(reference.getSenderId());
-        storedReference.setSenderJobTitle(reference.getSenderJobTitle());
+        storedReference.setContactId(reference.getContactId());
+        storedReference.setContactJobTitle(reference.getContactJobTitle());
 
         // Save the reference in the database and return it
         return referenceRepository.save(storedReference);
@@ -134,7 +134,7 @@ public class ReferenceService {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Reference not found");
         }
 
-        boolean isSameUser = checkUser(reference.getSenderId().toString(), token);
+        boolean isSameUser = checkUser(reference.getContactId().toString(), token);
 
         if (!isSameUser) {
             logger.error("Error while deleting a reference: user not authorized");
@@ -163,21 +163,22 @@ public class ReferenceService {
     /**
      * Get all references sent by a user.
      *
-     * @param id User id (sender id).
+     * @param id User id (contact id).
      * @return List of references sent by the user.
      */
     public List<Reference> getReferenceByUserId(UUID id) {
-        logger.info("Getting reference with sender id " + id);
-        return referenceRepository.findBySenderId(id);
+        logger.info("Getting reference with contact id " + id);
+        return referenceRepository.findByContactId(id);
     }
 
     /**
      * Check if the reference has all the required attributes.
+     *
      * @param reference Reference to check.
      * @throws HttpClientErrorException If the reference does not have all the required attributes.
      */
     private void checkAttributes(ReferenceDTO reference) throws HttpClientErrorException {
-        if (reference.getMessage() == null || reference.getCompanyId() == null || reference.getSenderId() == null || reference.getSenderJobTitle() == null) {
+        if (reference.getContact() == null || reference.getCompanyId() == null || reference.getContactId() == null || reference.getContactJobTitle() == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing attributes");
         }
     }

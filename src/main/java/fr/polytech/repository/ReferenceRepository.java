@@ -13,11 +13,11 @@ import java.util.UUID;
 public interface ReferenceRepository extends JpaRepository<Reference, UUID> {
 
     /**
-     * Find all references by sender id.
+     * Find all references by contact id.
      *
-     * @param id Sender id.
+     * @param id Contact id.
      * @return List of references.
      */
-    @Query("SELECT r FROM Reference r WHERE r.senderId = :id")
-    List<Reference> findBySenderId(@Param("id") UUID id);
+    @Query("SELECT r FROM Reference r WHERE r.contactId = :id")
+    List<Reference> findByContactId(@Param("id") UUID id);
 }

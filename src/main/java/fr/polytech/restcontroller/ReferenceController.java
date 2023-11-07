@@ -61,7 +61,7 @@ public class ReferenceController {
     /**
      * Get reference by user id.
      *
-     * @param id User id (sender id).
+     * @param id User id (contact id).
      * @return List of references with the specified user id.
      */
     @GetMapping("/user/{id}")
