@@ -1,7 +1,5 @@
 package fr.polytech.service;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import fr.polytech.model.Reference;
 import fr.polytech.model.ReferenceDTO;
 import fr.polytech.repository.ReferenceRepository;
@@ -83,11 +81,10 @@ public class ReferenceService {
      * Update a reference.
      *
      * @param reference Reference to update.
-     * @param token     String - Access token.
      * @return Updated reference.
      * @throws NotFoundException If the reference is not found.
      */
-    public Reference updateReference(ReferenceDTO reference, String token) throws HttpClientErrorException {
+    public Reference updateReference(ReferenceDTO reference) throws HttpClientErrorException {
         logger.info("Starting the update of a reference");
 
         checkAttributes(reference);
@@ -98,14 +95,6 @@ public class ReferenceService {
             logger.error("Error while updating a reference: reference not found");
             // If the reference is not found, throw an exception
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Reference not found");
-        }
-
-        boolean isSameUser = checkUser(reference.getContactId().toString(), token);
-
-        if (!isSameUser) {
-            logger.error("Error while deleting a reference: user not authorized");
-            // If the user is not authorized, throw an exception
-            throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "User not authorized");
         }
 
         storedReference.setContact(reference.getContact());
@@ -120,11 +109,10 @@ public class ReferenceService {
     /**
      * Delete a reference.
      *
-     * @param id    Reference id.
-     * @param token String - Access token.
+     * @param id Reference id.
      * @throws NotFoundException If the reference is not found.
      */
-    public void deleteReference(UUID id, String token) throws HttpClientErrorException {
+    public void deleteReference(UUID id) throws HttpClientErrorException {
         logger.info("Starting the deletion of a reference");
         Reference reference = referenceRepository.findById(id).orElse(null);
 
@@ -134,30 +122,7 @@ public class ReferenceService {
             throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Reference not found");
         }
 
-        boolean isSameUser = checkUser(reference.getContactId().toString(), token);
-
-        if (!isSameUser) {
-            logger.error("Error while deleting a reference: user not authorized");
-            // If the user is not authorized, throw an exception
-            throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED, "User not authorized");
-        }
-
         referenceRepository.delete(reference);
-    }
-
-    /**
-     * Check if the "sub" field of the access token matches the user id
-     *
-     * @param id    String - User id
-     * @param token String - Access token
-     * @return boolean - True if the "sub" field of the access token matches the user id, false otherwise
-     * @throws HttpClientErrorException if an error occurs while decoding the token
-     */
-    public boolean checkUser(String id, String token) throws HttpClientErrorException {
-        String actualToken = token.split("Bearer ")[1];
-        DecodedJWT jwt = JWT.decode(actualToken);
-        String userId = jwt.getClaim("sub").asString();
-        return userId.equals(id);
     }
 
     /**

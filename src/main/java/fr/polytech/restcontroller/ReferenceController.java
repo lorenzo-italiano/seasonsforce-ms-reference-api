@@ -103,9 +103,9 @@ public class ReferenceController {
     @PutMapping("/")
     @Consumes(MediaType.APPLICATION_JSON_VALUE)
     @Produces(MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Reference> updateReference(@RequestBody ReferenceDTO reference, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<Reference> updateReference(@RequestBody ReferenceDTO reference) {
         try {
-            Reference updatedReference = referenceService.updateReference(reference, token);
+            Reference updatedReference = referenceService.updateReference(reference);
             logger.info("Completed update of a reference");
             logger.debug("Updated reference: " + updatedReference.toString());
             return ResponseEntity.ok(updatedReference);
@@ -124,10 +124,10 @@ public class ReferenceController {
      */
     @DeleteMapping("/{id}")
     @Produces(MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<Boolean> deleteReference(@PathVariable("id") UUID id, @RequestHeader("Authorization") String token) {
+    public ResponseEntity<Boolean> deleteReference(@PathVariable("id") UUID id) {
         try {
 
-            referenceService.deleteReference(id, token);
+            referenceService.deleteReference(id);
             logger.info("Completed deletion of a reference");
             logger.debug("Deleted reference with id " + id);
             return ResponseEntity.ok(true);
