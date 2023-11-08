@@ -40,16 +40,16 @@ public class ReferenceService {
      *
      * @param id Reference id.
      * @return Reference with the specified id.
-     * @throws NotFoundException If the reference is not found.
+     * @throws HttpClientErrorException If the reference is not found.
      */
-    public Reference getReferenceById(UUID id) throws NotFoundException {
+    public Reference getReferenceById(UUID id) throws HttpClientErrorException {
         Reference reference = referenceRepository.findById(id).orElse(null);
         logger.info("Getting reference with id " + id);
 
         if (reference == null) {
             logger.error("Error while getting a reference: reference not found");
             // If the reference is not found, throw an exception
-            throw new NotFoundException("Reference not found");
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Reference not found");
         }
 
         logger.debug("Returning reference with id " + id);

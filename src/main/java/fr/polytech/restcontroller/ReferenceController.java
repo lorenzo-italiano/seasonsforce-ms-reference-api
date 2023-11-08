@@ -53,7 +53,7 @@ public class ReferenceController {
     public ResponseEntity<Reference> getReferenceById(@PathVariable("id") UUID id) {
         try {
             return ResponseEntity.ok(referenceService.getReferenceById(id));
-        } catch (NotFoundException e) {
+        } catch (HttpClientErrorException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -69,7 +69,7 @@ public class ReferenceController {
     public ResponseEntity<List<Reference>> getReferenceByUserId(@PathVariable("id") UUID id) {
         try {
             return ResponseEntity.ok(referenceService.getReferenceByUserId(id));
-        } catch (NotFoundException e) {
+        } catch (HttpClientErrorException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -131,8 +131,8 @@ public class ReferenceController {
             logger.info("Completed deletion of a reference");
             logger.debug("Deleted reference with id " + id);
             return ResponseEntity.ok(true);
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
+        } catch (HttpClientErrorException e) {
+            return new ResponseEntity<>(false, e.getStatusCode());
         }
     }
 }
