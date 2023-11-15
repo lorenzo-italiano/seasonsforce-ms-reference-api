@@ -1,5 +1,7 @@
 package fr.polytech.restcontroller;
 
+import fr.polytech.annotation.IsAdmin;
+import fr.polytech.annotation.IsCandidate;
 import fr.polytech.model.Reference;
 import fr.polytech.model.ReferenceDTO;
 import fr.polytech.service.ReferenceService;
@@ -11,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -36,7 +37,7 @@ public class ReferenceController {
      * @return List of all references.
      */
     @GetMapping("/")
-    @PreAuthorize("hasRole('client_admin')")
+    @IsAdmin
     @Produces(MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Reference>> getAllReferences() {
         return ResponseEntity.ok(referenceService.getAllReferences());
@@ -81,6 +82,7 @@ public class ReferenceController {
      * @return Created reference.
      */
     @PostMapping("/")
+    @IsCandidate
     @Consumes(MediaType.APPLICATION_JSON_VALUE)
     @Produces(MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Reference> createReference(@RequestBody ReferenceDTO reference) {
@@ -101,6 +103,7 @@ public class ReferenceController {
      * @return Updated reference.
      */
     @PutMapping("/")
+    @IsCandidate
     @Consumes(MediaType.APPLICATION_JSON_VALUE)
     @Produces(MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Reference> updateReference(@RequestBody ReferenceDTO reference) {
@@ -123,6 +126,7 @@ public class ReferenceController {
      * @return True if the reference was deleted, false otherwise.
      */
     @DeleteMapping("/{id}")
+    @IsCandidate
     @Produces(MediaType.TEXT_PLAIN_VALUE)
     public ResponseEntity<Boolean> deleteReference(@PathVariable("id") UUID id) {
         try {
