@@ -85,7 +85,7 @@ public class ReferenceController {
     @IsCandidate
     @Consumes(MediaType.APPLICATION_JSON_VALUE)
     @Produces(MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Reference> createReference(@RequestBody ReferenceDTO reference) {
+    public ResponseEntity<Reference> createReference(@RequestBody Reference reference) {
         try {
             Reference createdReference = referenceService.createReference(reference);
             logger.info("Completed creation of a reference");
