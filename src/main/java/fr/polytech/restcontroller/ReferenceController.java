@@ -91,7 +91,7 @@ public class ReferenceController {
             Reference createdReference = referenceService.createReference(reference);
             logger.info("Completed creation of a reference");
             logger.debug("Created new reference: " + createdReference.toString());
-            return new ResponseEntity<Reference>(createdReference, HttpStatus.CREATED);
+            return new ResponseEntity<>(createdReference, HttpStatus.CREATED);
         } catch (HttpClientErrorException e) {
             return ResponseEntity.badRequest().build();
         }
