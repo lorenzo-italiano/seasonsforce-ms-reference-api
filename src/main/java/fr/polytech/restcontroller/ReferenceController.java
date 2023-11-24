@@ -11,6 +11,7 @@ import jakarta.ws.rs.Produces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -85,12 +86,12 @@ public class ReferenceController {
     @IsCandidate
     @Consumes(MediaType.APPLICATION_JSON_VALUE)
     @Produces(MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Reference> createReference(@RequestBody Reference reference) {
+    public ResponseEntity<Reference> createReference(@RequestBody ReferenceDTO reference) {
         try {
             Reference createdReference = referenceService.createReference(reference);
             logger.info("Completed creation of a reference");
             logger.debug("Created new reference: " + createdReference.toString());
-            return ResponseEntity.ok(createdReference);
+            return new ResponseEntity<Reference>(createdReference, HttpStatus.CREATED);
         } catch (HttpClientErrorException e) {
             return ResponseEntity.badRequest().build();
         }

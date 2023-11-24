@@ -62,19 +62,19 @@ public class ReferenceService {
      * @param reference Reference to create.
      * @return Created reference.
      */
-    public Reference createReference(Reference reference) {
+    public Reference createReference(ReferenceDTO reference) {
         logger.info("Starting the creation of a reference");
 
-//        checkAttributes(reference);
+        checkAttributes(reference);
 
-//        Reference referenceReturn = new Reference();
-//        referenceReturn.setContact(reference.getContact());
-//        referenceReturn.setCompanyId(reference.getCompanyId());
-//        referenceReturn.setContactId(reference.getContactId());
-//        referenceReturn.setContactJobTitle(reference.getContactJobTitle());
+        Reference referenceReturn = new Reference();
+        referenceReturn.setContact(reference.getContact());
+        referenceReturn.setCompanyId(reference.getCompanyId());
+        referenceReturn.setContactId(reference.getContactId());
+        referenceReturn.setContactJobTitle(reference.getContactJobTitle());
 
         // Save the reference in the database and return it
-        return referenceRepository.save(reference);
+        return referenceRepository.save(referenceReturn);
     }
 
     /**
