@@ -2,6 +2,7 @@ package fr.polytech.restcontroller;
 
 import fr.polytech.annotation.IsAdmin;
 import fr.polytech.annotation.IsCandidate;
+import fr.polytech.model.DetailedReferenceDTO;
 import fr.polytech.model.Reference;
 import fr.polytech.model.ReferenceDTO;
 import fr.polytech.service.ReferenceService;
@@ -55,6 +56,22 @@ public class ReferenceController {
     public ResponseEntity<Reference> getReferenceById(@PathVariable("id") UUID id) {
         try {
             return ResponseEntity.ok(referenceService.getReferenceById(id));
+        } catch (HttpClientErrorException e) {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    /**
+     * Get detailed reference by id.
+     *
+     * @param id Reference id.
+     * @return Reference with the specified id.
+     */
+    @GetMapping("/detailed/{id}")
+    @Produces(MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DetailedReferenceDTO> getDetailedReferenceById(@PathVariable("id") UUID id, @RequestHeader("Authorization") String token) {
+        try {
+            return ResponseEntity.ok(referenceService.getDetailedReferenceById(id, token));
         } catch (HttpClientErrorException e) {
             return ResponseEntity.notFound().build();
         }

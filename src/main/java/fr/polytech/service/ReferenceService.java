@@ -1,7 +1,10 @@
 package fr.polytech.service;
 
+import fr.polytech.model.CompanyDTO;
+import fr.polytech.model.DetailedReferenceDTO;
 import fr.polytech.model.Reference;
 import fr.polytech.model.ReferenceDTO;
+import fr.polytech.model.user.RecruiterDTO;
 import fr.polytech.repository.ReferenceRepository;
 import jakarta.ws.rs.NotFoundException;
 import org.slf4j.Logger;
@@ -24,6 +27,12 @@ public class ReferenceService {
 
     @Autowired
     private ReferenceRepository referenceRepository;
+
+    @Autowired
+    private CompanyService companyService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * Get all references.
@@ -146,5 +155,31 @@ public class ReferenceService {
         if (reference.getContact() == null || reference.getCompanyId() == null || reference.getContactId() == null || reference.getContactJobTitle() == null) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, "Missing attributes");
         }
+    }
+
+    public DetailedReferenceDTO getDetailedReferenceById(UUID id, String token) {
+        Reference referenceById = getReferenceById(id);
+
+        if (referenceById == null) {
+            logger.error("Error while getting a reference: reference not found");
+            // If the reference is not found, throw an exception
+            throw new HttpClientErrorException(HttpStatus.NOT_FOUND, "Reference not found");
+        }
+
+        DetailedReferenceDTO detailedReferenceDTO = new DetailedReferenceDTO();
+
+        detailedReferenceDTO.setId(referenceById.getId());
+        detailedReferenceDTO.setContactJobTitle(referenceById.getContactJobTitle());
+        detailedReferenceDTO.setContactName(referenceById.getContact());
+
+        CompanyDTO companyDTO = companyService.getCompanyById(referenceById.getCompanyId(), token);
+
+        detailedReferenceDTO.setCompany(companyDTO);
+
+        RecruiterDTO recruiterDTO = userService.getRecruiterById(referenceById.getContactId(), token);
+
+        detailedReferenceDTO.setContact(recruiterDTO);
+
+        return detailedReferenceDTO;
     }
 }
