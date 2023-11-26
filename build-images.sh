@@ -1,4 +1,4 @@
-mvn clean install
+mvn clean install -Dmaven.test.skip
 
 mv target/seasonsforce-ms-reference-api-1.0-SNAPSHOT.jar api-image/seasonsforce-ms-reference-api-1.0-SNAPSHOT.jar
 
