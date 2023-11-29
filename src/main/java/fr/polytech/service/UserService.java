@@ -1,6 +1,5 @@
 package fr.polytech.service;
 
-import fr.polytech.model.CompanyDTO;
 import fr.polytech.model.user.RecruiterDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,12 @@ public class UserService {
     private ApiService apiService;
 
     /**
-     * Get a Job Category by id.
+     * Get recruiter by id.
+     *
+     * @param id    Recruiter id.
+     * @param token Token of the user.
+     * @return Recruiter with the specified id.
+     * @throws HttpClientErrorException If the recruiter is not found.
      */
     public RecruiterDTO getRecruiterById(UUID id, String token) throws HttpClientErrorException {
         String uri = System.getenv("USER_API_URI") + "/" + id;

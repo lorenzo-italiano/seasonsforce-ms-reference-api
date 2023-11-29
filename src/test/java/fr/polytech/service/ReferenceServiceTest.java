@@ -25,6 +25,9 @@ public class ReferenceServiceTest {
     @Autowired
     private ReferenceService referenceService;
 
+    /**
+     * Test that the method returns a list of references.
+     */
     @Test
     public void testGetAllReferences() {
         referenceRepository.save(new Reference()); // Save some dummy data
@@ -35,6 +38,9 @@ public class ReferenceServiceTest {
         assertEquals(2, result.size());
     }
 
+    /**
+     * Test that the method returns a reference.
+     */
     @Test
     public void testGetReferenceById() {
         Reference savedReference = referenceRepository.save(new Reference());
@@ -44,6 +50,9 @@ public class ReferenceServiceTest {
         assertEquals(savedReference.getId(), result.getId());
     }
 
+    /**
+     * Test that the method throws an exception when the reference is not found.
+     */
     @Test
     public void testGetReferenceByIdWithInvalidId() {
         // Check that an exception is thrown with status code 404
@@ -51,6 +60,9 @@ public class ReferenceServiceTest {
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
+    /**
+     * Test that the method creates a reference.
+     */
     @Test
     public void testCreateReference() {
         ReferenceDTO referenceDTO = new ReferenceDTO();
@@ -64,6 +76,9 @@ public class ReferenceServiceTest {
         assertEquals(referenceDTO.getCompanyId(), result.getCompanyId());
     }
 
+    /**
+     * Test that the method throws an exception when the reference is created with missing attributes.
+     */
     @Test
     public void testCreateReferenceWithMissingAttributes() {
         ReferenceDTO referenceDTO = new ReferenceDTO();
@@ -76,6 +91,9 @@ public class ReferenceServiceTest {
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
     }
 
+    /**
+     * Test that the method updates a reference.
+     */
     @Test
     public void testUpdateReference() {
         Reference savedReference = referenceRepository.save(new Reference());
@@ -92,6 +110,9 @@ public class ReferenceServiceTest {
         assertEquals(reference.getCompanyId(), result.getCompanyId());
     }
 
+    /**
+     * Test that the method throws an exception when the reference is updated with missing attributes.
+     */
     @Test
     public void testUpdateReferenceWithMissingAttributes() {
         Reference savedReference = referenceRepository.save(new Reference());
@@ -107,6 +128,9 @@ public class ReferenceServiceTest {
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
     }
 
+    /**
+     * Test that the method throws an exception when the reference is not found when updating.
+     */
     @Test
     public void testUpdateReferenceWithInvalidId() {
         ReferenceDTO reference = new ReferenceDTO();
@@ -121,6 +145,9 @@ public class ReferenceServiceTest {
         assertEquals(HttpStatus.NOT_FOUND, exception.getStatusCode());
     }
 
+    /**
+     * Test that the method deletes a reference.
+     */
     @Test
     public void testDeleteReference() {
         Reference savedReference = referenceRepository.save(new Reference());

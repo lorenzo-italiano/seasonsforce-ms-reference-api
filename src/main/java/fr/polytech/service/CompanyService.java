@@ -19,7 +19,12 @@ public class CompanyService {
     private ApiService apiService;
 
     /**
-     * Get a Job Category by id.
+     * Get company by id.
+     *
+     * @param id    Company id.
+     * @param token Token of the user.
+     * @return Company with the specified id.
+     * @throws HttpClientErrorException If the company is not found.
      */
     public CompanyDTO getCompanyById(UUID id, String token) throws HttpClientErrorException {
         String uri = System.getenv("COMPANY_API_URI") + "/" + id;

@@ -34,6 +34,11 @@ public class ReferenceControllerTest {
     @MockBean
     private ReferenceService referenceService;
 
+    /**
+     * Test that the endpoint returns a list of references.
+     *
+     * @throws Exception If an error occurs.
+     */
     @Test
     @WithMockUser
     public void testGetAllReferences() throws Exception {
@@ -42,6 +47,11 @@ public class ReferenceControllerTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Test that the endpoint returns a reference.
+     *
+     * @throws Exception If an error occurs.
+     */
     @Test
     @WithMockUser
     public void testGetReferenceById() throws Exception {
@@ -51,6 +61,11 @@ public class ReferenceControllerTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Test that the endpoint creates a reference.
+     *
+     * @throws Exception If an error occurs.
+     */
     @Test
     @WithMockUser
     public void testCreateReference() throws Exception {
@@ -77,6 +92,11 @@ public class ReferenceControllerTest {
                 .andExpect(status().isCreated());
     }
 
+    /**
+     * Test that the endpoint updates a reference.
+     *
+     * @throws Exception If an error occurs.
+     */
     @Test
     @WithMockUser
     public void testUpdateReference() throws Exception {
@@ -103,6 +123,11 @@ public class ReferenceControllerTest {
                 .andExpect(status().isOk());
     }
 
+    /**
+     * Test that the endpoint deletes a reference.
+     *
+     * @throws Exception If an error occurs.
+     */
     @Test
     @WithMockUser
     public void testDeleteReference() throws Exception {

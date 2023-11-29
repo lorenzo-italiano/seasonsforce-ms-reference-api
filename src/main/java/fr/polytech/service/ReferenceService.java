@@ -157,6 +157,12 @@ public class ReferenceService {
         }
     }
 
+    /**
+     * Get a detailed reference by id.
+     * @param id Reference id.
+     * @param token Token of the user.
+     * @return Detailed reference with the specified id.
+     */
     public DetailedReferenceDTO getDetailedReferenceById(UUID id, String token) {
         Reference referenceById = getReferenceById(id);
 
